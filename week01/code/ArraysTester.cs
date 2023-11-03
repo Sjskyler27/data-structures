@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations;
+using System.Net.Sockets;
+
 public static class ArraysTester {
     /// <summary>
     /// Entry point for the tests
@@ -32,14 +35,23 @@ public static class ArraysTester {
     /// integer greater than 0.
     /// </summary>
     /// <returns>array of doubles that are the multiples of the supplied number</returns>
+    /// 
+    
     private static double[] MultiplesOf(double number, int length)
     {
         // TODO Problem 1 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
-
-        return new double[0]; // replace this return statement with your own
+        /// skyler solution
+        /// create double[] solution and double multiple
+        /// loop through length, add number to multiple each loop, 
+        /// then add multiple to a list solution in the same loop
+        /// , return solution/// 
+        double[] solution = new double[length];
+        double multiple = 0;
+        for(int i = 0; i < length; i++){
+            multiple += number;
+            solution[i] = multiple;
+        }
+        return solution; // replace this return statement with your own
     }
     
     /// <summary>
@@ -57,5 +69,29 @@ public static class ArraysTester {
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
+        // create temp data list, int length, and int indexpoint of intereest
+        // we ant to remove the last few digets from the array based on amount
+        // we know the length of the array that we are sliceing
+        // we will create a new array the same length, then loop the amount of times starting at length minus amount
+        // and add that index to the new array, then loop from the begining of the oold array up to length minus amount
+        //then set the old array equal to the new
+        
+
+        var tempData = new List<int>();
+        int length = data.Count();
+        int indexPoint = length - amount;
+
+        for(int i = indexPoint; i < length; i++){
+            tempData.Add(data[i]);
+        }
+        // next add the remaining amount
+        for(int i = 0; i<indexPoint; i++){
+            tempData.Add(data[i]);
+        }
+
+        data.Clear();
+        data.AddRange(tempData);
+
+        // this method does not neccisarilty take advantage of the dynamic array and could just as easily work with a static array.
     }
 }
