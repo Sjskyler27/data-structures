@@ -10,31 +10,63 @@
  */
 public static class Priority {
     public static void Test() {
-        // TODO Problem 2 - Write and run test cases and fix the code to match requirements
-        // Example of creating and using the priority queue
+        // Create a priority queue
         var priorityQueue = new PriorityQueue();
-        Console.WriteLine(priorityQueue);
-
-        // Test Cases
 
         // Test 1
-        // Scenario: 
-        // Expected Result: 
+        // Scenario: Enqueue items with priorities and check if Dequeue returns them in the correct order
+        // Expected Result: Dequeue should return items in descending order of priority
         Console.WriteLine("Test 1");
+        priorityQueue.Enqueue("Item A", 3);
+        priorityQueue.Enqueue("Item B", 2);
+        priorityQueue.Enqueue("Item C", 4);
+        priorityQueue.Enqueue("Item D", 1);
 
-        // Defect(s) Found: 
+        // Dequeue should return "Item C" first (priority 4), then "Item A" (priority 3), "Item B" (priority 2), and finally "Item D" (priority 1).
+        Console.WriteLine(priorityQueue.Dequeue()); // Expected: "Item C"
+        Console.WriteLine(priorityQueue.Dequeue()); // Expected: "Item A"
+        Console.WriteLine(priorityQueue.Dequeue()); // Expected: "Item B"
+        Console.WriteLine(priorityQueue.Dequeue()); // Expected: "Item D"
+
+        // Defect(s) Found: None
 
         Console.WriteLine("---------");
 
         // Test 2
-        // Scenario: 
-        // Expected Result: 
-        Console.WriteLine("Test 2");
+        // Scenario: Enqueue items with priorities that are the same and check if Dequeue returns them in the correct order
+        // Expected Result: Dequeue should return items in descending order of priority
+        Console.WriteLine("Test 1");
+        priorityQueue.Enqueue("Item A", 3);
+        priorityQueue.Enqueue("Item B", 2);
+        priorityQueue.Enqueue("Item C", 4);
+        priorityQueue.Enqueue("Item D", 1);
+        priorityQueue.Enqueue("Item E", 4);
+        priorityQueue.Enqueue("Item F", 1);
 
-        // Defect(s) Found: 
+        // Dequeue should return "Item C" first (priority 4) "Item E" tied for (priority 4) , then "Item A" (priority 3), "Item B" (priority 2), and finally "Item D" (priority 1) "Item F" tied for (priority 1).
+        Console.WriteLine(priorityQueue.Dequeue()); // Expected: "Item C"
+        Console.WriteLine(priorityQueue.Dequeue()); // Expected: "Item E"
+        Console.WriteLine(priorityQueue.Dequeue()); // Expected: "Item A"
+        Console.WriteLine(priorityQueue.Dequeue()); // Expected: "Item B"
+        Console.WriteLine(priorityQueue.Dequeue()); // Expected: "Item D"
+        Console.WriteLine(priorityQueue.Dequeue()); // Expected: "Item F"
+
+        // Defect(s) Found: None
 
         Console.WriteLine("---------");
 
-        // Add more Test Cases As Needed Below
+
+
+        // Test 3
+        // Scenario: Try to dequeue from an empty queue
+        // Expected Result: An error message should be displayed
+        Console.WriteLine("Test 3");
+        
+        // Try to dequeue when the queue is empty, which should result in an error message.
+        Console.WriteLine(priorityQueue.Dequeue()); // Expected: "Queue is empty."
+
+        // Defect(s) Found: None
+
+        Console.WriteLine("---------");
     }
 }
