@@ -31,7 +31,7 @@ public class PriorityQueue {
 
         // Find the index of the item with the highest priority to remove
         var highPriorityIndex = 0;
-        for (int index = 1; index < _queue.Count; index++) {
+        for (int index = _queue.Count-1; index > 0; index--) { // go in reverse order to be sure to follow FIFO
             if (_queue[index].Priority >= _queue[highPriorityIndex].Priority)
                 highPriorityIndex = index;
         }
