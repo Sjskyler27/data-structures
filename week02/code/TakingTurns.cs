@@ -22,10 +22,12 @@ public static class TakingTurns {
         players.AddPerson("Bob", 2);
         players.AddPerson("Tim", 5);
         players.AddPerson("Sue", 3);
-        // Console.WriteLine(players);    // This can be un-commented out for debug help
+        Console.WriteLine(players);    // This can be un-commented out for debug help
         while (players.Length > 0)
             players.GetNextPerson();
         // Defect(s) Found: 
+
+        // sue is being popped off first even though she was the last added 
 
         Console.WriteLine("---------");
 
@@ -49,6 +51,7 @@ public static class TakingTurns {
             players.GetNextPerson();
 
         // Defect(s) Found: 
+        // none this test worked upon completeing the first
 
         Console.WriteLine("---------");
 
@@ -67,6 +70,7 @@ public static class TakingTurns {
             // Console.WriteLine(players);
         }
         // Defect(s) Found: 
+        // tim is  not repeating as he should
 
         Console.WriteLine("---------");
 
