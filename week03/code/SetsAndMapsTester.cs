@@ -108,10 +108,40 @@ public static class SetsAndMapsTester {
     /// </summary>
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     private static void DisplayPairs(string[] words) {
-        // To display the pair correctly use something like:
-        // Console.WriteLine($"{word} & {pair}");
-        // Each pair of words should displayed on its own line.
+        // set up two sets for comparison
+        HashSet<string> wordSet = new HashSet<string>();
+        HashSet<string> resultSet = new HashSet<string>();
+
+        foreach (string word in words)
+        {
+            // reverse the set
+            string reversedWord = ReverseWord(word);
+
+            // compare set
+            if (wordSet.Contains(reversedWord))
+            {
+                resultSet.Add(word + " & " + reversedWord);
+            }
+            else
+            {
+                wordSet.Add(word);
+            }
+        }
+
+        // print all of them
+        foreach (string pair in resultSet)
+        {
+            Console.WriteLine(pair);
+        }
     }
+
+    private static string ReverseWord(string word)
+    {
+        char[] charArray = word.ToCharArray();
+        Array.Reverse(charArray);
+        return new string(charArray);
+    }
+    
 
     /// <summary>
     /// Read a census file and summarize the degrees (education)
@@ -129,9 +159,25 @@ public static class SetsAndMapsTester {
     /// #############
     private static Dictionary<string, int> SummarizeDegrees(string filename) {
         var degrees = new Dictionary<string, int>();
-        foreach (var line in File.ReadLines(filename)) {
+        // don't mind me just struggling with file paths XD
+        // foreach (var line in File.ReadLines(@"D:\USB\Programming\dataStructures\data-structures\week03\code\census.txt"))
+        foreach (var line in File.ReadLines(filename))
+        {
             var fields = line.Split(",");
-            // Todo Problem 2 - ADD YOUR CODE HERE
+                // grab the 4th column
+                var degree = fields[3].Trim();
+
+                // Check if the degree already exists
+                if (degrees.ContainsKey(degree))
+                {
+                    degrees[degree]++;
+                }
+                else
+                {
+                    // add it if not
+                    degrees[degree] = 1;
+                }
+                
         }
 
         return degrees;
@@ -156,10 +202,67 @@ public static class SetsAndMapsTester {
     /// #############
     /// # Problem 3 #
     /// #############
-    private static bool IsAnagram(string word1, string word2) {
-        // Todo Problem 3 - ADD YOUR CODE HERE
+    private static bool IsAnagram(string word1, string word2)
+{
+    // O(n) 
+    // strip the phrases
+    word1 = word1.Replace(" ", "").ToLower();
+    word2 = word2.Replace(" ", "").ToLower();
+
+    // Initialize dictionaries 
+    Dictionary<char, int> letterCount1 = new Dictionary<char, int>();
+    Dictionary<char, int> letterCount2 = new Dictionary<char, int>();
+
+    // Count letters in word1
+    foreach (char c in word1)
+    {
+        if (letterCount1.ContainsKey(c))
+        {
+            letterCount1[c]++;
+        }
+        else
+        {
+            letterCount1[c] = 1;
+        }
+    }
+
+    // Count letters in word2
+    foreach (char c in word2)
+    {
+        if (letterCount2.ContainsKey(c))
+        {
+            letterCount2[c]++;
+        }
+        else
+        {
+            letterCount2[c] = 1;
+        }
+    }
+
+    // Compare the two dictionaries
+    return DictionaryEqual(letterCount1, letterCount2);
+}
+
+private static bool DictionaryEqual<TKey, TValue>(Dictionary<TKey, TValue> dict1, Dictionary<TKey, TValue> dict2)
+{
+    // compare the size
+    if (dict1.Count != dict2.Count)
+    {
         return false;
     }
+
+    //compare the key-value pairs
+    foreach (var kvp in dict1)
+    {
+        if (!dict2.ContainsKey(kvp.Key) || !EqualityComparer<TValue>.Default.Equals(kvp.Value, dict2[kvp.Key]))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 
     /// <summary>
     /// Sets up the maze dictionary for problem 4
@@ -221,6 +324,8 @@ public static class SetsAndMapsTester {
     /// 
     /// </summary>
     private static void EarthquakeDailySummary() {
+        //o(n)
+        //given code
         const string uri = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
         using var client = new HttpClient();
         using var getRequestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
@@ -228,9 +333,21 @@ public static class SetsAndMapsTester {
         using var reader = new StreamReader(jsonStream);
         var json = reader.ReadToEnd();
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+        // Console.WriteLine($"{json}");
 
         var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);
-        // 1. Add your code to map the json to the feature collection object
-        // 2. Print out each place a earthquake has happened today
+        // my code
+
+        // not really sure where a dictionary could come into play here, I have the data stored in a list then I loop through
+        // the list.
+        foreach (var feature in featureCollection.Features)
+        {
+            if (feature.Properties != null)
+            {
+                var place = feature.Properties.Place;
+                var magnitude = feature.Properties.Mag;
+                Console.WriteLine($"{place} - Mag {magnitude}");
+            }
+        }
     }
 }
